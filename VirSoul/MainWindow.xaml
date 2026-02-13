@@ -10,132 +10,118 @@
         Background="Transparent"
         AllowsTransparency="True">
 
-    <!-- WindowChrome enables native resize/snap while keeping custom title bar -->
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="36"
-                      ResizeBorderThickness="6"
-                      GlassFrameThickness="0"
-                      CornerRadius="0"
-                      UseAeroPeekPreview="True" />
+                      ResizeBorderThickness="8"
+                      GlassFrameThickness="0,0,0,1"
+                      CornerRadius="0" />
     </WindowChrome.WindowChrome>
 
-    <Grid>
-        <!-- Background image -->
-        <Grid.Background>
+    <!-- Outer border provides rounded corners and clips the background image -->
+    <Border CornerRadius="10" ClipToBounds="True">
+        <Border.Background>
             <ImageBrush ImageSource="Assets/grainient.png" Stretch="UniformToFill" />
-        </Grid.Background>
+        </Border.Background>
 
-        <Grid.RowDefinitions>
-            <!-- Custom title bar row -->
-            <RowDefinition Height="36" />
-            <!-- Content area -->
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="36" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-        <!-- Custom title bar (invisible/transparent) -->
-        <Grid Grid.Row="0" Background="Transparent">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+            <!-- Custom title bar (transparent, draggable via WindowChrome CaptionHeight) -->
+            <Grid Grid.Row="0" Background="Transparent">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Stretch"
+                            WindowChrome.IsHitTestVisibleInChrome="True">
 
-            <!-- Title bar buttons (right-aligned) -->
-            <StackPanel Grid.Column="1"
-                        Orientation="Horizontal"
-                        VerticalAlignment="Stretch"
-                        WindowChrome.IsHitTestVisibleInChrome="True">
+                    <!-- Minimize button -->
+                    <Button x:Name="MinimizeButton"
+                            Click="MinimizeButton_Click"
+                            ToolTip="Minimize">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Width" Value="46" />
+                                <Setter Property="Height" Value="36" />
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="border"
+                                                    Background="Transparent"
+                                                    Width="46" Height="36">
+                                                <Path Data="M 0,0 H 10"
+                                                      Stretch="None"
+                                                      Stroke="White"
+                                                      StrokeThickness="1.2"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center" />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="Background"
+                                                            Value="#33FFFFFF" />
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter TargetName="border" Property="Background"
+                                                            Value="#55FFFFFF" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
 
-                <!-- Minimize button -->
-                <Button x:Name="MinimizeButton"
-                        Click="MinimizeButton_Click"
-                        Width="46" Height="36"
-                        BorderThickness="0"
-                        Background="Transparent"
-                        Foreground="White"
-                        FontSize="14"
-                        Cursor="Hand"
-                        ToolTip="Minimize">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border x:Name="border"
-                                                Background="Transparent"
-                                                Width="{TemplateBinding Width}"
-                                                Height="{TemplateBinding Height}">
-                                            <!-- Minimize dash icon -->
-                                            <Path Data="M 18,17 H 28"
-                                                  Stroke="White" StrokeThickness="1.2"
-                                                  HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center" />
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter TargetName="border" Property="Background"
-                                                        Value="#33FFFFFF" />
-                                            </Trigger>
-                                            <Trigger Property="IsPressed" Value="True">
-                                                <Setter TargetName="border" Property="Background"
-                                                        Value="#55FFFFFF" />
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
-                </Button>
+                    <!-- Close button -->
+                    <Button x:Name="CloseButton"
+                            Click="CloseButton_Click"
+                            ToolTip="Close">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Width" Value="46" />
+                                <Setter Property="Height" Value="36" />
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="border"
+                                                    Background="Transparent"
+                                                    Width="46" Height="36">
+                                                <Path Data="M 0,0 L 10,10 M 10,0 L 0,10"
+                                                      Stretch="None"
+                                                      Stroke="White"
+                                                      StrokeThickness="1.2"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center" />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="Background"
+                                                            Value="#CCDC3545" />
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter TargetName="border" Property="Background"
+                                                            Value="#AADC3545" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
 
-                <!-- Close button -->
-                <Button x:Name="CloseButton"
-                        Click="CloseButton_Click"
-                        Width="46" Height="36"
-                        BorderThickness="0"
-                        Background="Transparent"
-                        Foreground="White"
-                        FontSize="14"
-                        Cursor="Hand"
-                        ToolTip="Close">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border x:Name="border"
-                                                Background="Transparent"
-                                                Width="{TemplateBinding Width}"
-                                                Height="{TemplateBinding Height}">
-                                            <!-- X close icon -->
-                                            <Path Data="M 18,12 L 28,22 M 28,12 L 18,22"
-                                                  Stroke="White" StrokeThickness="1.2"
-                                                  HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center" />
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter TargetName="border" Property="Background"
-                                                        Value="#CCDC3545" />
-                                            </Trigger>
-                                            <Trigger Property="IsPressed" Value="True">
-                                                <Setter TargetName="border" Property="Background"
-                                                        Value="#AADC3545" />
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
-                </Button>
+                </StackPanel>
+            </Grid>
 
-            </StackPanel>
+            <!-- Main content area -->
+            <Grid Grid.Row="1">
+                <!-- Application content goes here -->
+            </Grid>
+
         </Grid>
-
-        <!-- Main content area -->
-        <Grid Grid.Row="1">
-            <!-- Application content goes here -->
-        </Grid>
-
-    </Grid>
+    </Border>
 </Window>
