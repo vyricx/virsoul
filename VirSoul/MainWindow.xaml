@@ -38,8 +38,7 @@
 
                     <!-- Minimize button -->
                     <Button x:Name="MinimizeButton"
-                            Click="MinimizeButton_Click"
-                            ToolTip="Minimize">
+                            Click="MinimizeButton_Click">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Width" Value="46" />
@@ -78,8 +77,7 @@
 
                     <!-- Close button -->
                     <Button x:Name="CloseButton"
-                            Click="CloseButton_Click"
-                            ToolTip="Close">
+                            Click="CloseButton_Click">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Width" Value="46" />
@@ -121,7 +119,12 @@
 
             <!-- Main content area -->
             <Grid Grid.Row="1">
-                <!-- Application content goes here -->
+                <Border Background="#80000000"
+                        CornerRadius="10"
+                        Width="300"
+                        Padding="10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
             </Grid>
 
         </Grid>

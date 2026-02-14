@@ -7,7 +7,7 @@ namespace VirSoul
     public class DiscordRpcService : IDisposable
     {
         // Replace with your Discord Application ID from https://discord.com/developers/applications
-        private const string ApplicationId = "YOUR_APPLICATION_ID";
+        private const string ApplicationId = "1472017605555650645";
 
         private DiscordRpcClient? _client;
 
@@ -27,17 +27,18 @@ namespace VirSoul
             SetPresence();
         }
 
-        public void SetPresence(string details = "Running VirSoul", string state = "")
+        public void SetPresence(string details = "omg look at this super cute cat", string? state = null)
         {
             _client?.SetPresence(new RichPresence
             {
                 Details = details,
-                State = state,
-                Timestamps = Timestamps.Now,
+                State = state ?? "its so freaking cute",
                 Assets = new Assets
                 {
-                    LargeImageKey = "logo",
-                    LargeImageText = "VirSoul"
+                    LargeImageKey = "img_2106",
+                    LargeImageText = "cat",
+                    SmallImageKey = "img_2106",
+                    SmallImageText = "cat"
                 }
             });
         }
